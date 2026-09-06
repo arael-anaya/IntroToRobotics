@@ -1,0 +1,19 @@
+services:
+  ros-humble:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: intro-to-robotics-ros:humble
+    container_name: introToRoboticsContainer
+    working_dir: /home/ros/ros_ws
+    volumes:
+      - ../ros_ws:/home/ros/ros_ws
+    environment:
+      ROS_DOMAIN_ID: "0"
+      LIDAR_TYPE: A1
+      DISPLAY: "host.docker.internal:0.0"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+    command: /bin/bash
