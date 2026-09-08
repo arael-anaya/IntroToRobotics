@@ -9,7 +9,7 @@ import numpy as np
 
 class turtleController(Node):
     def __init__(self):
-        self.goalX = 5.5
+        self.goalX = 5.5A
         self.goalY = 5.5
 
         super().__init__("turtle_controller")
