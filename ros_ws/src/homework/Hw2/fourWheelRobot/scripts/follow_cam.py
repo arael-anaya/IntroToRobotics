@@ -16,6 +16,12 @@ CLI, MSGS = ('gz', 'gz.msgs') if shutil.which('gz') else ('ign', 'ignition.msgs'
 following = True
 
 
+def die_with_parent():
+    # Kill the child 'ign topic' when this script dies, so it can't outlive the launch
+    import ctypes
+    ctypes.CDLL('libc.so.6').prctl(1, 15)  # PR_SET_PDEATHSIG, SIGTERM
+
+
 def gz_service(service, reqtype, req):
     subprocess.run([CLI, 'service', '-s', service, '--reqtype', reqtype,
                     '--reptype', MSGS + '.Boolean', '--timeout', '2000',
@@ -48,7 +54,7 @@ def main():
     global following
     threading.Thread(target=start_when_robot_exists, daemon=True).start()
     p = subprocess.Popen([CLI, 'topic', '-e', '-t', '/keyboard/keypress'],
-                         stdout=subprocess.PIPE, text=True)
+                         stdout=subprocess.PIPE, text=True, preexec_fn=die_with_parent)
     for line in p.stdout:
         if line.strip() == 'data: %d' % K_KEY:
             following = not following

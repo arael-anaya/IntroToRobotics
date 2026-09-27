@@ -2,7 +2,7 @@ import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, ExecuteProcess, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 
@@ -11,10 +11,17 @@ def generate_launch_description():
     world = os.path.join(pkg, 'worlds' , 'my_world.sdf')
     urdf = os.path.join(pkg, 'urdf', 'my_robot.urdf')
 
+    # Private Gazebo transport partition for this launch only. Without it, a
+    # Gazebo server left over from an earlier run shares the same world name and
+    # its robots get drawn in this GUI too (duplicate tables/wheels).
+    partition = f'fourWheelRobot_{os.getpid()}'
+    partition_env = [SetEnvironmentVariable('IGN_PARTITION', partition),
+                     SetEnvironmentVariable('GZ_PARTITION', partition)]
+
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
             get_package_share_directory('ros_gz_sim'), 'launch' , 'gz_sim.launch.py')),
-        launch_arguments = {'gz_args': f'-r {world}'}.items())
+        launch_arguments = {'gz_args': f'-r {world}', 'on_exit_shutdown': 'true'}.items())
 
     spawn = Node(
             package='ros_gz_sim', executable='create',
@@ -34,7 +41,7 @@ def generate_launch_description():
         cmd=['python3', os.path.join(pkg, 'scripts', 'trail.py'), 'my_robot'],
         output='screen')
 
-    return LaunchDescription([gazebo, spawn, bridge, follow_cam, trail])
+    return LaunchDescription([*partition_env, gazebo, spawn, bridge, follow_cam, trail])
 
 
     

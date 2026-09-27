@@ -4,7 +4,7 @@ from ament_index_python.packages import get_package_share_directory
 
 
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess, SetEnvironmentVariable
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 
@@ -27,6 +27,13 @@ def generate_launch_description():
     yaml_file = os.path.join(pkg_path,'config/bridge.yaml')
     print(yaml_file)
     
+    # Private Gazebo transport partition for this launch only. Without it, a
+    # Gazebo server left over from an earlier run shares the same world name and
+    # its robots get drawn in this GUI too (duplicate tables/wheels).
+    partition = f'fourWheelRobot_{os.getpid()}'
+    partition_env = [SetEnvironmentVariable('IGN_PARTITION', partition),
+                     SetEnvironmentVariable('GZ_PARTITION', partition)]
+
     world = LaunchConfiguration('world')
 
     world_arg = DeclareLaunchArgument(
@@ -68,6 +75,7 @@ def generate_launch_description():
 
     # Launch them all!
     return LaunchDescription([
+        *partition_env,
         rsp,
         world_arg,
         gazebo,

@@ -21,6 +21,12 @@ CLI, MSGS = ('gz', 'gz.msgs') if shutil.which('gz') else ('ign', 'ignition.msgs'
 marker_id = 0
 
 
+def die_with_parent():
+    # Kill the child 'ign topic' when this script dies, so it can't outlive the launch
+    import ctypes
+    ctypes.CDLL('libc.so.6').prctl(1, 15)  # PR_SET_PDEATHSIG, SIGTERM
+
+
 def add_segment(a, b):
     global marker_id
     marker_id += 1
@@ -92,7 +98,7 @@ def main():
     cmd = [CLI, 'topic', '-e', '-t', '/world/%s/dynamic_pose/info' % world]
     # A pty makes ign line-buffer its output; through a plain pipe it is block-buffered
     master, slave = pty.openpty()
-    subprocess.Popen(cmd, stdout=slave, stderr=subprocess.DEVNULL)
+    subprocess.Popen(cmd, stdout=slave, stderr=subprocess.DEVNULL, preexec_fn=die_with_parent)
     os.close(slave)
     stream = os.fdopen(master, "r", errors="replace")
 
