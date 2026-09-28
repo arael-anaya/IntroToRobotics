@@ -13,6 +13,13 @@ find_package(xacro REQUIRED)
 find_package(robot_state_publisher REQUIRED)
 find_package(ros_gz_sim REQUIRED)
 find_package(ros_gz_bridge REQUIRED)
+find_package(ignition-transport11 REQUIRED)
+find_package(ignition-msgs8 REQUIRED)
+
+# Trail + chase camera, talking to Gazebo directly over ign-transport
+add_executable(sim_helpers src/sim_helpers.cpp)
+target_link_libraries(sim_helpers ignition-transport11::core ignition-msgs8::core)
+install(TARGETS sim_helpers DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -26,7 +33,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(DIRECTORY urdf worlds launch config scripts
+install(DIRECTORY urdf worlds launch config
   DESTINATION share/${PROJECT_NAME})
 
 ament_package()

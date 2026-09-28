@@ -39,7 +39,8 @@
             <topic>scan</topic>
             <update_rate>10</update_rate>
             <always_on>true</always_on>
-            <visualize>true</visualize>
+            <!-- Drawing the rays is expensive without a GPU; see the scan in RViz instead -->
+            <visualize>false</visualize>
             <lidar>
                 <scan>
                     <horizontal>

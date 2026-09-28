@@ -25,24 +25,36 @@
         <gz-gui>
           <property key="state" type="string">floating</property>
           <property key="showTitleBar" type="bool">false</property>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
         </gz-gui>
       </plugin>
       <plugin filename="CameraTracking" name="Camera Tracking">
         <gz-gui>
           <property key="state" type="string">floating</property>
           <property key="showTitleBar" type="bool">false</property>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
         </gz-gui>
       </plugin>
       <plugin filename="MarkerManager" name="Marker manager">
         <gz-gui>
           <property key="state" type="string">floating</property>
           <property key="showTitleBar" type="bool">false</property>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
         </gz-gui>
       </plugin>
       <plugin filename="KeyPublisher" name="Key publisher">
         <gz-gui>
           <property key="state" type="string">floating</property>
           <property key="showTitleBar" type="bool">false</property>
+          <property key="resizable" type="bool">false</property>
+          <property key="width" type="double">5</property>
+          <property key="height" type="double">5</property>
         </gz-gui>
       </plugin>
     </gui>
@@ -60,7 +72,8 @@
     </plugin>
 
     <light type="directional" name="sun">
-      <cast_shadows>true</cast_shadows>
+      <!-- Shadows are rendered on the CPU in the container (no GPU) and cost a lot -->
+      <cast_shadows>false</cast_shadows>
       <pose>0 0 10 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>0.5 0.5 0.5 1</specular>
@@ -82,6 +95,40 @@
         </visual>
       </link>
     </model>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Cardboard Box</uri>
+        <name>box1</name>
+      <pose>2.7 -3.4 0 0 0 0.9</pose>
+      <scale>4 4 4</scale>
+    </include>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/GoogleResearch/models/Animal_Planet_Foam_2Headed_Dragon</uri>
+      <name>dragon</name>
+      <pose>-4.1 3.8 0 0 0 2.3</pose>
+      <scale>4 4 4</scale>
+    </include>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/Abdurrahman/models/Walking person</uri>
+      <name>walking_person</name>
+      <pose>1.5 4.6 0 0 0 -1.2</pose>
+    </include>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/Abdurrahman/models/Refrigerator</uri>
+      <name>refrigerator</name>
+      <pose>-3.6 -1.9 0 0 0 0.4</pose>
+      <scale>4 4 4</scale>
+    </include>
+
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/mugi0138/models/Standard VTOL</uri>
+      <name>standard_vtol</name>
+      <pose>4.9 1.2 0 0 0 -2.6</pose>
+      <scale>4 4 4</scale>
+    </include>
 
   </world>
 </sdf>
