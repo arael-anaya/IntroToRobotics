@@ -20,6 +20,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
     libgflags-dev \
     nlohmann-json3-dev \
     # Handy utilities
+    mesa-utils \
     bash-completion \
     curl \
     nano \

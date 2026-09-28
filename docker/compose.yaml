@@ -8,10 +8,24 @@ services:
     working_dir: /home/ros/ros_ws
     volumes:
       - ../ros_ws:/home/ros/ros_ws
+      # GPU (WSL2): Windows GPU driver libs, used by Mesa's d3d12 driver
+      - /usr/lib/wsl:/usr/lib/wsl:ro
+      # Display: WSLg's built-in X server (no VcXsrv needed)
+      - /run/desktop/mnt/host/wslg/.X11-unix:/tmp/.X11-unix
+      - /run/desktop/mnt/host/wslg:/mnt/wslg
+    devices:
+      # GPU (WSL2): paravirtualized GPU device
+      - /dev/dxg:/dev/dxg
     environment:
       ROS_DOMAIN_ID: "0"
       LIDAR_TYPE: A1
-      DISPLAY: "host.docker.internal:0.0"
+      DISPLAY: ":0"
+      WAYLAND_DISPLAY: wayland-0
+      XDG_RUNTIME_DIR: /mnt/wslg/runtime-dir
+      # Render OpenGL on the NVIDIA GPU through WSL instead of on the CPU
+      LD_LIBRARY_PATH: /usr/lib/wsl/lib
+      GALLIUM_DRIVER: d3d12
+      MESA_D3D12_DEFAULT_ADAPTER_NAME: NVIDIA
     extra_hosts:
       - "host.docker.internal:host-gateway"
     stdin_open: true
