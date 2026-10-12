@@ -7,7 +7,7 @@ import numpy as np
 # ros2 topic pub /turtle1/goal_pose geometry_msgs/msg/Point "{x: 5.5, y: 5.5, z: 0.0}" --once
 
 
-class turtleController(Node):
+class turtleController(Node):   
     def __init__(self):
         self.goalX = 5.5A
         self.goalY = 5.5
