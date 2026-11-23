@@ -1,3 +1,3 @@
-[submodule "ros_ws/src/labs/megn441"]
-	path = ros_ws/src/labs/megn441
+[submodule "labs"]
+	path = labs
 	url = git@github.com:arael-anaya/megn441.git

@@ -7,7 +7,7 @@ services:
     container_name: introToRoboticsContainer
     working_dir: /home/ros/ros_ws
     volumes:
-      - ../ros_ws:/home/ros/ros_ws
+      - ..:/home/ros/ros_ws
       # GPU (WSL2): Windows GPU driver libs, used by Mesa's d3d12 driver
       - /usr/lib/wsl:/usr/lib/wsl:ro
       # Display: WSLg's built-in X server (no VcXsrv needed)

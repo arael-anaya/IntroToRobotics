@@ -16,7 +16,7 @@ Docker is my recommended option. Docker containers are lightweight, isolated dev
 - If using a Mac, no need for WSL. MacOS is a Unix system, so just about all of the functionality you would need from WSL is there behind the scenes using `Terminal`. Can just start by installing Docker Desktop, as below.
 
 - Download and install Docker Desktop: [Docker Desktop Install Page](https://docs.docker.com/get-started/get-docker/)
-- I have included a `Dockerfile` and `compose.yaml` in the `docker` folder. The class workspace is in the sibling `ros_ws` folder and is mounted into the container at `/home/ros/ros_ws`.
+- I have included a `Dockerfile` and `compose.yaml` in the `docker` folder. The repo root is the colcon workspace and is mounted into the container at `/home/ros/ros_ws`.
 - To build the Dockerfile, use the following. It will grab the file named `Dockerfile` and create an image called `ros2-dev:latest`
   
   ```bash

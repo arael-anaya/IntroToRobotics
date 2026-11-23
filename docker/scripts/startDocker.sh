@@ -3,10 +3,10 @@
 # Build first from the class workspace:
 # docker compose -f docker/compose.yaml build
 
-# Mount the class ROS workspace next to this script, so the command works
+# Mount the class repo root (the colcon workspace), so the command works
 # regardless of where the class folder is located on the host.
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-LOCAL_DIR="$(CDPATH= cd -- "$SCRIPT_DIR/../../ros_ws" && pwd)"
+LOCAL_DIR="$(CDPATH= cd -- "$SCRIPT_DIR/../.." && pwd)"
 
 
 docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix \
