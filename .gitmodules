@@ -1,3 +1,6 @@
 [submodule "labs"]
 	path = labs
 	url = git@github.com:arael-anaya/megn441.git
+[submodule "mipRobot"]
+	path = mipRobot
+	url = git@github.com:arael-anaya/mipRobot.git
